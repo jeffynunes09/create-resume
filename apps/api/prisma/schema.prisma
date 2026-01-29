@@ -1,0 +1,93 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Resume {
+  id           String       @id @default(uuid())
+  summary      String?
+  createdAt    DateTime     @default(now()) @map("created_at")
+  updatedAt    DateTime     @updatedAt @map("updated_at")
+  personalInfo PersonalInfo?
+  experiences  Experience[]
+  education    Education[]
+  skills       Skill[]
+
+  @@map("resumes")
+}
+
+model PersonalInfo {
+  id       String  @id @default(uuid())
+  resumeId String  @unique @map("resume_id")
+  fullName String  @map("full_name")
+  email    String
+  phone    String?
+  location String?
+  linkedIn String? @map("linkedin")
+  github   String?
+  website  String?
+  resume   Resume  @relation(fields: [resumeId], references: [id], onDelete: Cascade)
+
+  @@map("personal_info")
+}
+
+model Experience {
+  id          String   @id @default(uuid())
+  resumeId    String   @map("resume_id")
+  company     String
+  position    String
+  startDate   String   @map("start_date")
+  endDate     String?  @map("end_date")
+  current     Boolean  @default(false)
+  description String?
+  highlights  String[]
+  resume      Resume   @relation(fields: [resumeId], references: [id], onDelete: Cascade)
+
+  @@map("experiences")
+}
+
+model Education {
+  id          String  @id @default(uuid())
+  resumeId    String  @map("resume_id")
+  institution String
+  degree      String
+  field       String
+  startDate   String  @map("start_date")
+  endDate     String? @map("end_date")
+  current     Boolean @default(false)
+  gpa         String?
+  resume      Resume  @relation(fields: [resumeId], references: [id], onDelete: Cascade)
+
+  @@map("education")
+}
+
+enum SkillLevel {
+  beginner
+  intermediate
+  advanced
+  expert
+}
+
+model Skill {
+  id       String      @id @default(uuid())
+  resumeId String      @map("resume_id")
+  name     String
+  level    SkillLevel?
+  category String?
+  resume   Resume      @relation(fields: [resumeId], references: [id], onDelete: Cascade)
+
+  @@map("skills")
+}
+
+
+model User {
+  id        String   @id @default(uuid())
+  email     String   @unique
+  password  String
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+}
