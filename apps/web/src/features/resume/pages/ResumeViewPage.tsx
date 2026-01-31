@@ -85,6 +85,59 @@ export function ResumeViewPage() {
       const imgHeight = (canvas.height * imgWidth) / canvas.width;
 
       pdf.addImage(imgData, "PNG", 0, 0, imgWidth, imgHeight);
+
+      // Adicionar links clicáveis no PDF
+      const links: Array<{ url: string; text: string }> = [];
+
+      if (resume.personalInfo.linkedIn) {
+        const linkedInUrl = resume.personalInfo.linkedIn.startsWith("http")
+          ? resume.personalInfo.linkedIn
+          : `https://${resume.personalInfo.linkedIn}`;
+        links.push({ url: linkedInUrl, text: "LinkedIn" });
+      }
+
+      if (resume.personalInfo.github) {
+        const githubUrl = resume.personalInfo.github.startsWith("http")
+          ? resume.personalInfo.github
+          : `https://${resume.personalInfo.github}`;
+        links.push({ url: githubUrl, text: "GitHub" });
+      }
+
+      if (links.length > 0) {
+        // Encontrar os elementos de link no DOM e calcular suas posições
+        const previewElement = previewRef.current;
+        const previewRect = previewElement.getBoundingClientRect();
+        const scale = imgWidth / previewRect.width;
+
+        const linkElements = previewElement.querySelectorAll('a[href*="linkedin"], a[href*="github"]');
+        linkElements.forEach((linkEl) => {
+          const rect = linkEl.getBoundingClientRect();
+          const x = (rect.left - previewRect.left) * scale;
+          const y = (rect.top - previewRect.top) * scale;
+          const width = rect.width * scale;
+          const height = rect.height * scale;
+
+          const href = linkEl.getAttribute("href");
+          if (href) {
+            pdf.link(x, y, width, height, { url: href });
+          }
+        });
+
+        // Também adicionar link do email se existir
+        const emailLink = previewElement.querySelector('a[href^="mailto:"]');
+        if (emailLink) {
+          const rect = emailLink.getBoundingClientRect();
+          const x = (rect.left - previewRect.left) * scale;
+          const y = (rect.top - previewRect.top) * scale;
+          const width = rect.width * scale;
+          const height = rect.height * scale;
+          const href = emailLink.getAttribute("href");
+          if (href) {
+            pdf.link(x, y, width, height, { url: href });
+          }
+        }
+      }
+
       pdf.save(`${resume.personalInfo.fullName || "curriculo"}.pdf`);
     } catch (err) {
       console.error("Erro ao gerar PDF:", err);

@@ -1,9 +1,11 @@
 import "dotenv/config";
 import express from "express";
 import cors from "cors";
+import swaggerUi from "swagger-ui-express";
 import { prisma } from "./database/prisma.js";
 import { authRoutes } from "./modules/auth/index.js";
 import { resumeRoutes } from "./modules/resume/index.js";
+import { swaggerSpec } from "./config/swagger.js";
 
 const app = express();
 const PORT = process.env.API_PORT || 3001;
@@ -11,6 +13,12 @@ const HOST = process.env.API_HOST || "0.0.0.0";
 
 app.use(cors());
 app.use(express.json());
+
+// Swagger Documentation
+app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec, {
+  customCss: ".swagger-ui .topbar { display: none }",
+  customSiteTitle: "Create Resume API Docs",
+}));
 
 // Routes
 app.get("/health", (_req, res) => {

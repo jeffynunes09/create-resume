@@ -8,9 +8,12 @@
     "dev": "turbo run dev",
     "build": "turbo run build",
     "lint": "turbo run lint",
+    "typecheck": "turbo run typecheck",
     "test": "turbo run test",
     "clean": "turbo run clean && rm -rf node_modules",
-    "format": "prettier --write \"**/*.{ts,tsx,js,json,md}\""
+    "format": "prettier --write \"**/*.{ts,tsx,js,json,md}\"",
+    "storybook": "pnpm --filter @create-resume/web storybook",
+    "build-storybook": "pnpm --filter @create-resume/web build-storybook"
   },
   "devDependencies": {
     "prettier": "^3.4.0",
