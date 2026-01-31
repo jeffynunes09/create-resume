@@ -1,7 +1,7 @@
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { QueryClientProvider } from "@tanstack/react-query";
 import { queryClient } from "@/lib/query";
-import { AuthProvider, useAuth, LoginPage } from "@/features/auth";
+import { AuthProvider, useAuth, LoginPage, RegisterPage } from "@/features/auth";
 import { DashboardPage } from "@/features/dashboard";
 import { ResumeCreatePage, ResumeViewPage, ResumeEditPage } from "@/features/resume";
 import { AppLayout } from "@/components/layout";
@@ -36,6 +36,14 @@ function AppRoutes() {
         element={
           <PublicRoute>
             <LoginPage />
+          </PublicRoute>
+        }
+      />
+      <Route
+        path={ROUTES_PATH.REGISTER}
+        element={
+          <PublicRoute>
+            <RegisterPage />
           </PublicRoute>
         }
       />
