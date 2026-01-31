@@ -1,4 +1,4 @@
-import { Router } from "express";
+import { Router, type Router as RouterType } from "express";
 import {
   createResumeController,
   getResumesController,
@@ -8,7 +8,7 @@ import {
 } from "../controllers/index.js";
 import { authMiddleware } from "../../auth/index.js";
 
-const router = Router();
+const router: RouterType = Router();
 
 // All routes require authentication
 router.use(authMiddleware);

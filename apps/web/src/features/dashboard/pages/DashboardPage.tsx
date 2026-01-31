@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { ROUTES_PATH, buildRoute } from "@create-resume/routes";
 import { useResumes } from "@/features/resume";
-import { Plus, FileText, Calendar, Loader2, Trash2, Eye, Edit } from "lucide-react";
+import { Plus, FileText, Calendar, Loader2, Eye, Edit } from "lucide-react";
 
 export function DashboardPage() {
   const { data: resumes, isLoading, error } = useResumes();

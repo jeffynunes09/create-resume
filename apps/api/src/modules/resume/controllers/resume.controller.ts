@@ -40,7 +40,7 @@ export async function getResumesController(_req: Request, res: Response) {
 
 export async function getResumeByIdController(req: Request, res: Response) {
   try {
-    const { id } = req.params;
+    const id = req.params.id as string;
     const resume = await getResumeById(id);
 
     if (!resume) {
@@ -57,7 +57,7 @@ export async function getResumeByIdController(req: Request, res: Response) {
 
 export async function updateResumeController(req: Request, res: Response) {
   try {
-    const { id } = req.params;
+    const id = req.params.id as string;
 
     const existing = await getResumeById(id);
     if (!existing) {
@@ -75,7 +75,7 @@ export async function updateResumeController(req: Request, res: Response) {
 
 export async function deleteResumeController(req: Request, res: Response) {
   try {
-    const { id } = req.params;
+    const id = req.params.id as string;
 
     const existing = await getResumeById(id);
     if (!existing) {

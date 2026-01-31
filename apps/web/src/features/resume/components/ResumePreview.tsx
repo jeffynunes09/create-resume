@@ -4,34 +4,69 @@ import type { Resume } from "@create-resume/shared-types";
 
 interface ResumePreviewProps {
   data: Partial<Resume>;
+  fontFamily?: string;
+  fontSize?: string;
+  textColor?: string;
 }
 
-export function ResumePreview({ data }: ResumePreviewProps) {
+export function ResumePreview({
+  data,
+  fontFamily = "Inter, system-ui, sans-serif",
+  fontSize = "14",
+  textColor = "#000000",
+}: ResumePreviewProps) {
   const { personalInfo, summary, experiences, education, skills } = data;
 
   const formatDate = (date?: string) => {
     if (!date) return "";
-    const [year, month] = date.split("-");
+    const parts = date.split("-");
+    if (parts.length < 2) return date;
+    const year = parts[0];
+    const month = parts[1];
+    if (!year || !month) return date;
     const months = [
       "Jan", "Fev", "Mar", "Abr", "Mai", "Jun",
       "Jul", "Ago", "Set", "Out", "Nov", "Dez",
     ];
-    return `${months[parseInt(month) - 1]} ${year}`;
+    const monthIndex = parseInt(month, 10) - 1;
+    if (isNaN(monthIndex) || monthIndex < 0 || monthIndex > 11) return date;
+    return `${months[monthIndex]} ${year}`;
   };
 
+  const baseFontSize = parseInt(fontSize);
+  const headingSize = baseFontSize + 10;
+  const subHeadingSize = baseFontSize;
+  const smallSize = baseFontSize - 2;
+
   return (
-    <div className="bg-white text-black p-8 shadow-lg min-h-[842px] text-sm">
+    <div
+      className="bg-white p-8 shadow-lg min-h-[842px]"
+      style={{
+        fontFamily,
+        fontSize: `${baseFontSize}px`,
+        color: textColor,
+      }}
+    >
       {/* Header */}
       <div className="text-center mb-6">
-        <h1 className="text-2xl font-bold mb-2">
+        <h1
+          className="font-bold mb-2"
+          style={{ fontSize: `${headingSize}px` }}
+        >
           {personalInfo?.fullName || "Seu Nome"}
         </h1>
-        <div className="flex flex-wrap justify-center gap-4 text-gray-600 text-xs">
+        <div
+          className="flex flex-wrap justify-center gap-4"
+          style={{ fontSize: `${smallSize}px`, color: "#4a5568" }}
+        >
           {personalInfo?.email && (
-            <span className="flex items-center gap-1">
+            <a
+              href={`mailto:${personalInfo.email}`}
+              className="flex items-center gap-1 hover:underline"
+            >
               <Mail className="h-3 w-3" />
               {personalInfo.email}
-            </span>
+            </a>
           )}
           {personalInfo?.phone && (
             <span className="flex items-center gap-1">
@@ -46,16 +81,26 @@ export function ResumePreview({ data }: ResumePreviewProps) {
             </span>
           )}
           {personalInfo?.linkedIn && (
-            <span className="flex items-center gap-1">
+            <a
+              href={personalInfo.linkedIn.startsWith("http") ? personalInfo.linkedIn : `https://${personalInfo.linkedIn}`}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-center gap-1 hover:underline text-blue-600"
+            >
               <Linkedin className="h-3 w-3" />
               LinkedIn
-            </span>
+            </a>
           )}
           {personalInfo?.github && (
-            <span className="flex items-center gap-1">
+            <a
+              href={personalInfo.github.startsWith("http") ? personalInfo.github : `https://${personalInfo.github}`}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-center gap-1 hover:underline text-blue-600"
+            >
               <Github className="h-3 w-3" />
               GitHub
-            </span>
+            </a>
           )}
         </div>
       </div>
@@ -65,10 +110,15 @@ export function ResumePreview({ data }: ResumePreviewProps) {
         <>
           <Separator className="my-4" />
           <section>
-            <h2 className="text-sm font-bold uppercase tracking-wider mb-2">
+            <h2
+              className="font-bold uppercase tracking-wider mb-2"
+              style={{ fontSize: `${subHeadingSize}px` }}
+            >
               Resumo
             </h2>
-            <p className="text-gray-700 leading-relaxed">{summary}</p>
+            <p className="leading-relaxed" style={{ color: "#4a5568" }}>
+              {summary}
+            </p>
           </section>
         </>
       )}
@@ -78,7 +128,10 @@ export function ResumePreview({ data }: ResumePreviewProps) {
         <>
           <Separator className="my-4" />
           <section>
-            <h2 className="text-sm font-bold uppercase tracking-wider mb-3">
+            <h2
+              className="font-bold uppercase tracking-wider mb-3"
+              style={{ fontSize: `${subHeadingSize}px` }}
+            >
               Experiência Profissional
             </h2>
             <div className="space-y-4">
@@ -87,18 +140,26 @@ export function ResumePreview({ data }: ResumePreviewProps) {
                   <div className="flex justify-between items-start">
                     <div>
                       <h3 className="font-semibold">{exp.position}</h3>
-                      <p className="text-gray-600">{exp.company}</p>
+                      <p style={{ color: "#4a5568" }}>{exp.company}</p>
                     </div>
-                    <span className="text-xs text-gray-500">
+                    <span style={{ fontSize: `${smallSize}px`, color: "#718096" }}>
                       {formatDate(exp.startDate)} -{" "}
                       {exp.current ? "Presente" : formatDate(exp.endDate)}
                     </span>
                   </div>
                   {exp.description && (
-                    <p className="text-gray-700 mt-1 text-xs">{exp.description}</p>
+                    <p
+                      className="mt-1"
+                      style={{ fontSize: `${smallSize}px`, color: "#4a5568" }}
+                    >
+                      {exp.description}
+                    </p>
                   )}
                   {exp.highlights.length > 0 && (
-                    <ul className="list-disc list-inside mt-1 text-xs text-gray-700">
+                    <ul
+                      className="list-disc list-inside mt-1"
+                      style={{ fontSize: `${smallSize}px`, color: "#4a5568" }}
+                    >
                       {exp.highlights.map((h, i) => (
                         <li key={i}>{h}</li>
                       ))}
@@ -116,7 +177,10 @@ export function ResumePreview({ data }: ResumePreviewProps) {
         <>
           <Separator className="my-4" />
           <section>
-            <h2 className="text-sm font-bold uppercase tracking-wider mb-3">
+            <h2
+              className="font-bold uppercase tracking-wider mb-3"
+              style={{ fontSize: `${subHeadingSize}px` }}
+            >
               Educação
             </h2>
             <div className="space-y-3">
@@ -126,12 +190,14 @@ export function ResumePreview({ data }: ResumePreviewProps) {
                     <h3 className="font-semibold">
                       {edu.degree} em {edu.field}
                     </h3>
-                    <p className="text-gray-600">{edu.institution}</p>
+                    <p style={{ color: "#4a5568" }}>{edu.institution}</p>
                     {edu.gpa && (
-                      <p className="text-xs text-gray-500">CR: {edu.gpa}</p>
+                      <p style={{ fontSize: `${smallSize}px`, color: "#718096" }}>
+                        CR: {edu.gpa}
+                      </p>
                     )}
                   </div>
-                  <span className="text-xs text-gray-500">
+                  <span style={{ fontSize: `${smallSize}px`, color: "#718096" }}>
                     {formatDate(edu.startDate)} -{" "}
                     {edu.current ? "Presente" : formatDate(edu.endDate)}
                   </span>
@@ -147,14 +213,18 @@ export function ResumePreview({ data }: ResumePreviewProps) {
         <>
           <Separator className="my-4" />
           <section>
-            <h2 className="text-sm font-bold uppercase tracking-wider mb-2">
+            <h2
+              className="font-bold uppercase tracking-wider mb-2"
+              style={{ fontSize: `${subHeadingSize}px` }}
+            >
               Habilidades
             </h2>
             <div className="flex flex-wrap gap-1.5">
               {skills.map((skill) => (
                 <span
                   key={skill.id}
-                  className="px-2 py-0.5 bg-gray-100 rounded text-xs"
+                  className="px-2 py-0.5 bg-gray-100 rounded"
+                  style={{ fontSize: `${smallSize}px` }}
                 >
                   {skill.name}
                 </span>

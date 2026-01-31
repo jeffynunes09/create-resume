@@ -3,7 +3,7 @@ import { QueryClientProvider } from "@tanstack/react-query";
 import { queryClient } from "@/lib/query";
 import { AuthProvider, useAuth, LoginPage } from "@/features/auth";
 import { DashboardPage } from "@/features/dashboard";
-import { ResumeCreatePage } from "@/features/resume";
+import { ResumeCreatePage, ResumeViewPage, ResumeEditPage } from "@/features/resume";
 import { AppLayout } from "@/components/layout";
 import { ROUTES_PATH } from "@create-resume/routes";
 
@@ -50,6 +50,8 @@ function AppRoutes() {
       >
         <Route path={ROUTES_PATH.DASHBOARD} element={<DashboardPage />} />
         <Route path={ROUTES_PATH.RESUME_CREATE} element={<ResumeCreatePage />} />
+        <Route path={ROUTES_PATH.RESUME_VIEW} element={<ResumeViewPage />} />
+        <Route path={ROUTES_PATH.RESUME_EDIT} element={<ResumeEditPage />} />
       </Route>
 
       {/* Redirects */}

@@ -9,7 +9,7 @@ export function LoginPage() {
     mutate(data);
   };
 
-  const errorMessage = error ? (error as ApiError).error : null;
+  const errorMessage = error ? (error as unknown as ApiError).error : null;
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-background px-4">

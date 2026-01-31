@@ -27,7 +27,7 @@ export function authMiddleware(req: Request, res: Response, next: NextFunction) 
     return;
   }
 
-  const [scheme, token] = parts;
+  const [scheme, token] = parts as [string, string];
 
   if (!/^Bearer$/i.test(scheme)) {
     res.status(401).json({ error: "Token mal formatado" });

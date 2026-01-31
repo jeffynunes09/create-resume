@@ -1,16 +1,56 @@
-import { useParams, Link, useNavigate } from "react-router-dom";
+import { useParams, Link } from "react-router-dom";
+import { useRef, useState } from "react";
 import { Button } from "@/components/ui/button";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import { ResumePreview } from "../components/ResumePreview";
 import { useResume } from "../hooks/useResume";
 import { useDeleteResume } from "../hooks/useDeleteResume";
 import { ROUTES_PATH, buildRoute } from "@create-resume/routes";
-import { ArrowLeft, Edit, Trash2, Download, Loader2 } from "lucide-react";
+import { ArrowLeft, Edit, Trash2, Download, Loader2, FileText } from "lucide-react";
+import html2canvas from "html2canvas";
+import { jsPDF } from "jspdf";
+import { Document, Packer, Paragraph, TextRun, HeadingLevel, AlignmentType } from "docx";
+import { saveAs } from "file-saver";
+
+const FONTS = [
+  { value: "inter", label: "Inter" },
+  { value: "arial", label: "Arial" },
+  { value: "times", label: "Times New Roman" },
+  { value: "georgia", label: "Georgia" },
+  { value: "roboto", label: "Roboto" },
+];
+
+const FONT_SIZES = [
+  { value: "12", label: "12px" },
+  { value: "14", label: "14px" },
+  { value: "16", label: "16px" },
+  { value: "18", label: "18px" },
+];
+
+const COLORS = [
+  { value: "#000000", label: "Preto" },
+  { value: "#1a365d", label: "Azul Escuro" },
+  { value: "#2d3748", label: "Cinza Escuro" },
+  { value: "#1a202c", label: "Quase Preto" },
+  { value: "#744210", label: "Marrom" },
+];
 
 export function ResumeViewPage() {
   const { id } = useParams<{ id: string }>();
-  const navigate = useNavigate();
   const { data: resume, isLoading, error } = useResume(id!);
   const { mutate: deleteResume, isPending: isDeleting } = useDeleteResume();
+  const previewRef = useRef<HTMLDivElement>(null);
+
+  const [fontFamily, setFontFamily] = useState("inter");
+  const [fontSize, setFontSize] = useState("14");
+  const [textColor, setTextColor] = useState("#000000");
+  const [isDownloading, setIsDownloading] = useState(false);
 
   const handleDelete = () => {
     if (window.confirm("Tem certeza que deseja excluir este currículo?")) {
@@ -20,6 +60,231 @@ export function ResumeViewPage() {
 
   const handlePrint = () => {
     window.print();
+  };
+
+  const handleDownloadPDF = async () => {
+    if (!previewRef.current || !resume) return;
+
+    setIsDownloading(true);
+    try {
+      const canvas = await html2canvas(previewRef.current, {
+        scale: 2,
+        useCORS: true,
+        logging: false,
+        backgroundColor: "#ffffff",
+      });
+
+      const imgData = canvas.toDataURL("image/png");
+      const pdf = new jsPDF({
+        orientation: "portrait",
+        unit: "mm",
+        format: "a4",
+      });
+
+      const imgWidth = 210;
+      const imgHeight = (canvas.height * imgWidth) / canvas.width;
+
+      pdf.addImage(imgData, "PNG", 0, 0, imgWidth, imgHeight);
+      pdf.save(`${resume.personalInfo.fullName || "curriculo"}.pdf`);
+    } catch (err) {
+      console.error("Erro ao gerar PDF:", err);
+      alert("Erro ao gerar PDF. Tente novamente.");
+    } finally {
+      setIsDownloading(false);
+    }
+  };
+
+  const handleDownloadDOCX = async () => {
+    if (!resume) return;
+
+    setIsDownloading(true);
+    try {
+      const sections: Paragraph[] = [];
+
+      // Header - Nome
+      sections.push(
+        new Paragraph({
+          children: [
+            new TextRun({
+              text: resume.personalInfo.fullName || "Seu Nome",
+              bold: true,
+              size: 48,
+              color: textColor.replace("#", ""),
+            }),
+          ],
+          alignment: AlignmentType.CENTER,
+          spacing: { after: 200 },
+        })
+      );
+
+      // Contato
+      const contactParts: string[] = [];
+      if (resume.personalInfo.email) contactParts.push(resume.personalInfo.email);
+      if (resume.personalInfo.phone) contactParts.push(resume.personalInfo.phone);
+      if (resume.personalInfo.location) contactParts.push(resume.personalInfo.location);
+
+      if (contactParts.length > 0) {
+        sections.push(
+          new Paragraph({
+            children: [
+              new TextRun({
+                text: contactParts.join(" | "),
+                size: 20,
+                color: "666666",
+              }),
+            ],
+            alignment: AlignmentType.CENTER,
+            spacing: { after: 400 },
+          })
+        );
+      }
+
+      // Resumo
+      if (resume.summary) {
+        sections.push(
+          new Paragraph({
+            text: "RESUMO",
+            heading: HeadingLevel.HEADING_2,
+            spacing: { before: 400, after: 200 },
+          })
+        );
+        sections.push(
+          new Paragraph({
+            children: [new TextRun({ text: resume.summary, size: 22 })],
+            spacing: { after: 200 },
+          })
+        );
+      }
+
+      // Experiência
+      if (resume.experiences && resume.experiences.length > 0) {
+        sections.push(
+          new Paragraph({
+            text: "EXPERIÊNCIA PROFISSIONAL",
+            heading: HeadingLevel.HEADING_2,
+            spacing: { before: 400, after: 200 },
+          })
+        );
+
+        for (const exp of resume.experiences) {
+          sections.push(
+            new Paragraph({
+              children: [
+                new TextRun({ text: exp.position, bold: true, size: 24 }),
+                new TextRun({ text: ` - ${exp.company}`, size: 24 }),
+              ],
+              spacing: { before: 200 },
+            })
+          );
+
+          const dateText = `${exp.startDate || ""} - ${exp.current ? "Presente" : exp.endDate || ""}`;
+          sections.push(
+            new Paragraph({
+              children: [new TextRun({ text: dateText, size: 20, color: "666666" })],
+            })
+          );
+
+          if (exp.description) {
+            sections.push(
+              new Paragraph({
+                children: [new TextRun({ text: exp.description, size: 22 })],
+                spacing: { before: 100 },
+              })
+            );
+          }
+
+          for (const highlight of exp.highlights) {
+            sections.push(
+              new Paragraph({
+                children: [new TextRun({ text: `• ${highlight}`, size: 22 })],
+                indent: { left: 360 },
+              })
+            );
+          }
+        }
+      }
+
+      // Educação
+      if (resume.education && resume.education.length > 0) {
+        sections.push(
+          new Paragraph({
+            text: "EDUCAÇÃO",
+            heading: HeadingLevel.HEADING_2,
+            spacing: { before: 400, after: 200 },
+          })
+        );
+
+        for (const edu of resume.education) {
+          sections.push(
+            new Paragraph({
+              children: [
+                new TextRun({ text: `${edu.degree} em ${edu.field}`, bold: true, size: 24 }),
+              ],
+              spacing: { before: 200 },
+            })
+          );
+          sections.push(
+            new Paragraph({
+              children: [new TextRun({ text: edu.institution, size: 22 })],
+            })
+          );
+          const dateText = `${edu.startDate || ""} - ${edu.current ? "Presente" : edu.endDate || ""}`;
+          sections.push(
+            new Paragraph({
+              children: [new TextRun({ text: dateText, size: 20, color: "666666" })],
+            })
+          );
+        }
+      }
+
+      // Habilidades
+      if (resume.skills && resume.skills.length > 0) {
+        sections.push(
+          new Paragraph({
+            text: "HABILIDADES",
+            heading: HeadingLevel.HEADING_2,
+            spacing: { before: 400, after: 200 },
+          })
+        );
+        sections.push(
+          new Paragraph({
+            children: [
+              new TextRun({
+                text: resume.skills.map((s) => s.name).join(" • "),
+                size: 22,
+              }),
+            ],
+          })
+        );
+      }
+
+      const doc = new Document({
+        sections: [{ children: sections }],
+      });
+
+      const blob = await Packer.toBlob(doc);
+      saveAs(blob, `${resume.personalInfo.fullName || "curriculo"}.docx`);
+    } catch (err) {
+      console.error("Erro ao gerar DOCX:", err);
+      alert("Erro ao gerar DOCX. Tente novamente.");
+    } finally {
+      setIsDownloading(false);
+    }
+  };
+
+  const getFontFamilyStyle = () => {
+    switch (fontFamily) {
+      case "arial":
+        return "Arial, sans-serif";
+      case "times":
+        return "'Times New Roman', Times, serif";
+      case "georgia":
+        return "Georgia, serif";
+      case "roboto":
+        return "Roboto, sans-serif";
+      default:
+        return "Inter, system-ui, sans-serif";
+    }
   };
 
   if (isLoading) {
@@ -66,10 +331,6 @@ export function ResumeViewPage() {
         </div>
 
         <div className="flex gap-2">
-          <Button variant="outline" size="sm" onClick={handlePrint}>
-            <Download className="h-4 w-4 mr-2" />
-            Imprimir / PDF
-          </Button>
           <Button variant="outline" size="sm" asChild>
             <Link to={buildRoute.resumeEdit(id!)}>
               <Edit className="h-4 w-4 mr-2" />
@@ -88,10 +349,107 @@ export function ResumeViewPage() {
         </div>
       </div>
 
+      {/* Formatting Controls */}
+      <div className="flex flex-wrap items-center gap-4 mb-6 p-4 bg-muted/50 rounded-lg print:hidden">
+        <div className="flex items-center gap-2">
+          <span className="text-sm font-medium">Fonte:</span>
+          <Select value={fontFamily} onValueChange={setFontFamily}>
+            <SelectTrigger className="w-[150px]">
+              <SelectValue />
+            </SelectTrigger>
+            <SelectContent>
+              {FONTS.map((font) => (
+                <SelectItem key={font.value} value={font.value}>
+                  {font.label}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
+        </div>
+
+        <div className="flex items-center gap-2">
+          <span className="text-sm font-medium">Tamanho:</span>
+          <Select value={fontSize} onValueChange={setFontSize}>
+            <SelectTrigger className="w-[100px]">
+              <SelectValue />
+            </SelectTrigger>
+            <SelectContent>
+              {FONT_SIZES.map((size) => (
+                <SelectItem key={size.value} value={size.value}>
+                  {size.label}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
+        </div>
+
+        <div className="flex items-center gap-2">
+          <span className="text-sm font-medium">Cor:</span>
+          <Select value={textColor} onValueChange={setTextColor}>
+            <SelectTrigger className="w-[140px]">
+              <SelectValue />
+            </SelectTrigger>
+            <SelectContent>
+              {COLORS.map((color) => (
+                <SelectItem key={color.value} value={color.value}>
+                  <div className="flex items-center gap-2">
+                    <div
+                      className="w-4 h-4 rounded border"
+                      style={{ backgroundColor: color.value }}
+                    />
+                    {color.label}
+                  </div>
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
+        </div>
+
+        <div className="flex-1" />
+
+        <div className="flex gap-2">
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={handleDownloadPDF}
+            disabled={isDownloading}
+          >
+            <Download className="h-4 w-4 mr-2" />
+            PDF
+          </Button>
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={handleDownloadDOCX}
+            disabled={isDownloading}
+          >
+            <FileText className="h-4 w-4 mr-2" />
+            DOCX
+          </Button>
+          <Button variant="outline" size="sm" onClick={handlePrint}>
+            <Download className="h-4 w-4 mr-2" />
+            Imprimir
+          </Button>
+        </div>
+      </div>
+
       {/* Preview */}
       <div className="flex justify-center">
-        <div className="w-[210mm] shadow-lg print:shadow-none">
-          <ResumePreview data={resume} />
+        <div
+          ref={previewRef}
+          className="w-[210mm] shadow-lg print:shadow-none"
+          style={{
+            fontFamily: getFontFamilyStyle(),
+            fontSize: `${fontSize}px`,
+            color: textColor,
+          }}
+        >
+          <ResumePreview
+            data={resume}
+            fontFamily={getFontFamilyStyle()}
+            fontSize={fontSize}
+            textColor={textColor}
+          />
         </div>
       </div>
     </div>
