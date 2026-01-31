@@ -2,6 +2,7 @@ export const ROUTES_PATH = {
   // Auth
   AUTH: "/auth/login",
   LOGIN: "/login",
+  REGISTER: "/register",
 
   // Dashboard
   DASHBOARD: "/dashboard",

@@ -130,6 +130,15 @@ const options: swaggerJsdoc.Options = {
             password: { type: "string", minLength: 6, example: "password123" },
           },
         },
+        RegisterInput: {
+          type: "object",
+          required: ["email", "password", "confirmPassword"],
+          properties: {
+            email: { type: "string", format: "email", example: "newuser@example.com" },
+            password: { type: "string", minLength: 6, example: "password123" },
+            confirmPassword: { type: "string", minLength: 6, example: "password123" },
+          },
+        },
         AuthResponse: {
           type: "object",
           properties: {

@@ -10,6 +10,12 @@ export interface LoginInput {
   password: string;
 }
 
+export interface RegisterInput {
+  email: string;
+  password: string;
+  confirmPassword: string;
+}
+
 export interface AuthResponse {
   user: {
     id: string;
@@ -34,6 +40,49 @@ export async function login(input: LoginInput): Promise<AuthResponse> {
   if (!isPasswordValid) {
     throw new Error("Credenciais inválidas");
   }
+
+  const token = jwt.sign(
+    { userId: user.id, email: user.email },
+    JWT_SECRET,
+    { expiresIn: JWT_EXPIRES_IN }
+  );
+
+  return {
+    user: {
+      id: user.id,
+      email: user.email,
+    },
+    token,
+  };
+}
+
+export async function register(input: RegisterInput): Promise<AuthResponse> {
+  const { email, password, confirmPassword } = input;
+
+  if (password !== confirmPassword) {
+    throw new Error("As senhas não coincidem");
+  }
+
+  if (password.length < 6) {
+    throw new Error("A senha deve ter pelo menos 6 caracteres");
+  }
+
+  const existingUser = await prisma.user.findUnique({
+    where: { email },
+  });
+
+  if (existingUser) {
+    throw new Error("Este email já está em uso");
+  }
+
+  const hashedPassword = await bcrypt.hash(password, 10);
+
+  const user = await prisma.user.create({
+    data: {
+      email,
+      password: hashedPassword,
+    },
+  });
 
   const token = jwt.sign(
     { userId: user.id, email: user.email },
