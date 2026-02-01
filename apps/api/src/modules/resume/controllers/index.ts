@@ -1,7 +1,7 @@
 export {
-  createResumeController,
-  getResumesController,
-  getResumeByIdController,
-  updateResumeController,
-  deleteResumeController,
+	createResumeController,
+	deleteResumeController,
+	getResumeByIdController,
+	getResumesController,
+	updateResumeController,
 } from "./resume.controller.js";
