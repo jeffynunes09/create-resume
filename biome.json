@@ -29,6 +29,9 @@
 				"noExplicitAny": "warn",
 				"noUnknownAtRules": "off",
 				"noArrayIndexKey": "warn"
+			},
+			"style": {
+				"noNonNullAssertion": "warn"
 			}
 		}
 	},

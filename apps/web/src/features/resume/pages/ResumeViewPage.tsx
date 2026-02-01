@@ -390,18 +390,18 @@ export function ResumeViewPage() {
 	}
 
 	return (
-		<div>
+		<div className="px-4 lg:px-0">
 			{/* Header */}
-			<div className="flex items-center justify-between mb-6 print:hidden">
-				<div className="flex items-center gap-4">
-					<Button variant="ghost" size="sm" asChild>
+			<div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4 mb-6 print:hidden">
+				<div className="flex flex-col sm:flex-row sm:items-center gap-3 sm:gap-4">
+					<Button variant="ghost" size="sm" asChild className="w-fit">
 						<Link to={ROUTES_PATH.DASHBOARD}>
 							<ArrowLeft className="h-4 w-4 mr-2" />
 							Voltar
 						</Link>
 					</Button>
 					<div>
-						<h1 className="text-2xl font-bold">
+						<h1 className="text-xl sm:text-2xl font-bold">
 							{resume.personalInfo.fullName}
 						</h1>
 						<p className="text-sm text-muted-foreground">
@@ -411,7 +411,12 @@ export function ResumeViewPage() {
 				</div>
 
 				<div className="flex gap-2">
-					<Button variant="outline" size="sm" asChild>
+					<Button
+						variant="outline"
+						size="sm"
+						asChild
+						className="flex-1 sm:flex-none"
+					>
 						<Link to={buildRoute.resumeEdit(id!)}>
 							<Edit className="h-4 w-4 mr-2" />
 							Editar
@@ -422,6 +427,7 @@ export function ResumeViewPage() {
 						size="sm"
 						onClick={handleDelete}
 						disabled={isDeleting}
+						className="flex-1 sm:flex-none"
 					>
 						<Trash2 className="h-4 w-4 mr-2" />
 						{isDeleting ? "Excluindo..." : "Excluir"}
@@ -430,94 +436,109 @@ export function ResumeViewPage() {
 			</div>
 
 			{/* Formatting Controls */}
-			<div className="flex flex-wrap items-center gap-4 mb-6 p-4 bg-muted/50 rounded-lg print:hidden">
-				<div className="flex items-center gap-2">
-					<span className="text-sm font-medium">Fonte:</span>
-					<Select value={fontFamily} onValueChange={setFontFamily}>
-						<SelectTrigger className="w-[150px]">
-							<SelectValue />
-						</SelectTrigger>
-						<SelectContent>
-							{FONTS.map((font) => (
-								<SelectItem key={font.value} value={font.value}>
-									{font.label}
-								</SelectItem>
-							))}
-						</SelectContent>
-					</Select>
+			<div className="flex flex-col lg:flex-row lg:flex-wrap lg:items-center gap-4 mb-6 p-4 bg-muted/50 rounded-lg print:hidden">
+				{/* Customization Options */}
+				<div className="grid grid-cols-1 sm:grid-cols-3 gap-4 lg:flex lg:flex-wrap lg:items-center lg:gap-4">
+					<div className="flex items-center gap-2">
+						<span className="text-sm font-medium whitespace-nowrap">
+							Fonte:
+						</span>
+						<Select value={fontFamily} onValueChange={setFontFamily}>
+							<SelectTrigger className="w-full sm:w-[150px]">
+								<SelectValue />
+							</SelectTrigger>
+							<SelectContent>
+								{FONTS.map((font) => (
+									<SelectItem key={font.value} value={font.value}>
+										{font.label}
+									</SelectItem>
+								))}
+							</SelectContent>
+						</Select>
+					</div>
+
+					<div className="flex items-center gap-2">
+						<span className="text-sm font-medium whitespace-nowrap">
+							Tamanho:
+						</span>
+						<Select value={fontSize} onValueChange={setFontSize}>
+							<SelectTrigger className="w-full sm:w-[100px]">
+								<SelectValue />
+							</SelectTrigger>
+							<SelectContent>
+								{FONT_SIZES.map((size) => (
+									<SelectItem key={size.value} value={size.value}>
+										{size.label}
+									</SelectItem>
+								))}
+							</SelectContent>
+						</Select>
+					</div>
+
+					<div className="flex items-center gap-2">
+						<span className="text-sm font-medium whitespace-nowrap">Cor:</span>
+						<Select value={textColor} onValueChange={setTextColor}>
+							<SelectTrigger className="w-full sm:w-[140px]">
+								<SelectValue />
+							</SelectTrigger>
+							<SelectContent>
+								{COLORS.map((color) => (
+									<SelectItem key={color.value} value={color.value}>
+										<div className="flex items-center gap-2">
+											<div
+												className="w-4 h-4 rounded border"
+												style={{ backgroundColor: color.value }}
+											/>
+											{color.label}
+										</div>
+									</SelectItem>
+								))}
+							</SelectContent>
+						</Select>
+					</div>
 				</div>
 
-				<div className="flex items-center gap-2">
-					<span className="text-sm font-medium">Tamanho:</span>
-					<Select value={fontSize} onValueChange={setFontSize}>
-						<SelectTrigger className="w-[100px]">
-							<SelectValue />
-						</SelectTrigger>
-						<SelectContent>
-							{FONT_SIZES.map((size) => (
-								<SelectItem key={size.value} value={size.value}>
-									{size.label}
-								</SelectItem>
-							))}
-						</SelectContent>
-					</Select>
-				</div>
+				<div className="hidden lg:block lg:flex-1" />
 
-				<div className="flex items-center gap-2">
-					<span className="text-sm font-medium">Cor:</span>
-					<Select value={textColor} onValueChange={setTextColor}>
-						<SelectTrigger className="w-[140px]">
-							<SelectValue />
-						</SelectTrigger>
-						<SelectContent>
-							{COLORS.map((color) => (
-								<SelectItem key={color.value} value={color.value}>
-									<div className="flex items-center gap-2">
-										<div
-											className="w-4 h-4 rounded border"
-											style={{ backgroundColor: color.value }}
-										/>
-										{color.label}
-									</div>
-								</SelectItem>
-							))}
-						</SelectContent>
-					</Select>
-				</div>
-
-				<div className="flex-1" />
-
-				<div className="flex gap-2">
+				{/* Download Buttons */}
+				<div className="grid grid-cols-3 gap-2 sm:flex sm:gap-2">
 					<Button
 						variant="outline"
 						size="sm"
 						onClick={handleDownloadPDF}
 						disabled={isDownloading}
+						className="flex-1 sm:flex-none"
 					>
-						<Download className="h-4 w-4 mr-2" />
-						PDF
+						<Download className="h-4 w-4 sm:mr-2" />
+						<span className="hidden sm:inline">PDF</span>
 					</Button>
 					<Button
 						variant="outline"
 						size="sm"
 						onClick={handleDownloadDOCX}
 						disabled={isDownloading}
+						className="flex-1 sm:flex-none"
 					>
-						<FileText className="h-4 w-4 mr-2" />
-						DOCX
+						<FileText className="h-4 w-4 sm:mr-2" />
+						<span className="hidden sm:inline">DOCX</span>
 					</Button>
-					<Button variant="outline" size="sm" onClick={handlePrint}>
-						<Download className="h-4 w-4 mr-2" />
-						Imprimir
+					<Button
+						variant="outline"
+						size="sm"
+						onClick={handlePrint}
+						className="flex-1 sm:flex-none"
+					>
+						<Download className="h-4 w-4 sm:mr-2" />
+						<span className="hidden sm:inline">Imprimir</span>
 					</Button>
 				</div>
 			</div>
 
 			{/* Preview */}
-			<div className="flex justify-center">
+			<div className="flex justify-center overflow-x-auto">
 				<div
 					ref={previewRef}
-					className="w-[210mm] shadow-lg print:shadow-none"
+					className="w-full max-w-[210mm] shadow-lg print:shadow-none print:max-w-none"
 					style={{
 						fontFamily: getFontFamilyStyle(),
 						fontSize: `${fontSize}px`,
