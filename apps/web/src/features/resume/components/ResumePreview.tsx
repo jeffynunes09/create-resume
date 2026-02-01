@@ -50,7 +50,7 @@ export function ResumePreview({
 
 	return (
 		<div
-			className="bg-white p-8 shadow-lg min-h-[842px]"
+			className="bg-white p-8 min-w-[520px] shadow-lg min-h-[842px]"
 			style={{
 				fontFamily,
 				fontSize: `${baseFontSize}px`,
@@ -63,7 +63,7 @@ export function ResumePreview({
 					{personalInfo?.fullName || "Seu Nome"}
 				</h1>
 				<div
-					className="flex flex-wrap justify-center gap-4"
+					className="flex flex-wrap justify-center gap-4 "
 					style={{ fontSize: `${smallSize}px`, color: "#4a5568" }}
 				>
 					{personalInfo?.email && (
