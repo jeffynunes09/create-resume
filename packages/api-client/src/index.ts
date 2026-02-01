@@ -7,10 +7,10 @@ export type { ApiClientConfig, ApiError } from "./client.js";
 export type { CreateResumeInput } from "./resume.js";
 
 export function createApiClient(config: ApiClientConfig) {
-  const client = new ApiClient(config);
+	const client = new ApiClient(config);
 
-  return {
-    auth: createAuthApi(client),
-    resume: createResumeApi(client),
-  };
+	return {
+		auth: createAuthApi(client),
+		resume: createResumeApi(client),
+	};
 }

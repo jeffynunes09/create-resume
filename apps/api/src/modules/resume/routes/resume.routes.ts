@@ -1,11 +1,11 @@
 import { Router, type Router as RouterType } from "express";
 import { authMiddleware } from "../../auth/index.js";
 import {
-  createResumeController,
-  deleteResumeController,
-  getResumeByIdController,
-  getResumesController,
-  updateResumeController,
+	createResumeController,
+	deleteResumeController,
+	getResumeByIdController,
+	getResumesController,
+	updateResumeController,
 } from "../controllers/index.js";
 
 const router: RouterType = Router();

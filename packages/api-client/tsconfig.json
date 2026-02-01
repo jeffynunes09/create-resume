@@ -1,9 +1,9 @@
 {
-  "extends": "@create-resume/tsconfig/base.json",
-  "compilerOptions": {
-    "outDir": "./dist",
-    "rootDir": "./src",
-    "lib": ["ES2022", "DOM"]
-  },
-  "include": ["src"]
+	"extends": "@create-resume/tsconfig/base.json",
+	"compilerOptions": {
+		"outDir": "./dist",
+		"rootDir": "./src",
+		"lib": ["ES2022", "DOM"]
+	},
+	"include": ["src"]
 }

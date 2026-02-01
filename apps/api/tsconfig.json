@@ -1,10 +1,10 @@
 {
-  "extends": "@create-resume/tsconfig/node.json",
-  "compilerOptions": {
-    "outDir": "./dist",
-    "rootDir": "./src",
-    "tsBuildInfoFile": "./node_modules/.tmp/tsconfig.tsbuildinfo"
-  },
-  "include": ["src"],
-  "exclude": ["node_modules", "dist"]
+	"extends": "@create-resume/tsconfig/node.json",
+	"compilerOptions": {
+		"outDir": "./dist",
+		"rootDir": "./src",
+		"tsBuildInfoFile": "./node_modules/.tmp/tsconfig.tsbuildinfo"
+	},
+	"include": ["src"],
+	"exclude": ["node_modules", "dist"]
 }

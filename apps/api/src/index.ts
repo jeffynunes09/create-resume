@@ -16,17 +16,17 @@ app.use(express.json());
 
 // Swagger Documentation
 app.use(
-  "/api-docs",
-  swaggerUi.serve,
-  swaggerUi.setup(swaggerSpec, {
-    customCss: ".swagger-ui .topbar { display: none }",
-    customSiteTitle: "Create Resume API Docs",
-  })
+	"/api-docs",
+	swaggerUi.serve,
+	swaggerUi.setup(swaggerSpec, {
+		customCss: ".swagger-ui .topbar { display: none }",
+		customSiteTitle: "Create Resume API Docs",
+	}),
 );
 
 // Routes
 app.get("/health", (_req, res) => {
-  res.json({ status: "ok" });
+	res.json({ status: "ok" });
 });
 
 app.use("/auth", authRoutes);
@@ -34,10 +34,10 @@ app.use("/resumes", resumeRoutes);
 
 // Start server
 app.listen(Number(PORT), HOST, () => {
-  console.log(`Server running at http://${HOST}:${PORT}`);
+	console.log(`Server running at http://${HOST}:${PORT}`);
 });
 
 process.on("SIGTERM", async () => {
-  await prisma.$disconnect();
-  process.exit(0);
+	await prisma.$disconnect();
+	process.exit(0);
 });

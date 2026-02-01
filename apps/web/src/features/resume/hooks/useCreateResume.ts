@@ -5,14 +5,14 @@ import { useNavigate } from "react-router-dom";
 import { api } from "@/lib/api";
 
 export function useCreateResume() {
-  const navigate = useNavigate();
-  const queryClient = useQueryClient();
+	const navigate = useNavigate();
+	const queryClient = useQueryClient();
 
-  return useMutation({
-    mutationFn: (data: CreateResumeInput) => api.resume.create(data),
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["resumes"] });
-      navigate(ROUTES_PATH.DASHBOARD);
-    },
-  });
+	return useMutation({
+		mutationFn: (data: CreateResumeInput) => api.resume.create(data),
+		onSuccess: () => {
+			queryClient.invalidateQueries({ queryKey: ["resumes"] });
+			navigate(ROUTES_PATH.DASHBOARD);
+		},
+	});
 }
