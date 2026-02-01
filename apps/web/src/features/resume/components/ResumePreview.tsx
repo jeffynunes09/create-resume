@@ -43,7 +43,7 @@ export function ResumePreview({
 		return `${months[monthIndex]} ${year}`;
 	};
 
-	const baseFontSize = parseInt(fontSize);
+	const baseFontSize = parseInt(fontSize, 10);
 	const headingSize = baseFontSize + 10;
 	const subHeadingSize = baseFontSize;
 	const smallSize = baseFontSize - 2;

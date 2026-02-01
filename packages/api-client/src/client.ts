@@ -29,7 +29,7 @@ export class ApiClient {
 		};
 
 		if (token) {
-			(headers as Record<string, string>)["Authorization"] = `Bearer ${token}`;
+			(headers as Record<string, string>).Authorization = `Bearer ${token}`;
 		}
 
 		const response = await fetch(`${this.baseUrl}${endpoint}`, {

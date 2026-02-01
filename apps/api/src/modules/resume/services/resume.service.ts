@@ -1,5 +1,4 @@
 import type { Resume } from "@create-resume/shared-types";
-import type { Prisma } from "@prisma/client";
 import { prisma } from "../../../database/prisma.js";
 
 export interface CreateResumeInput {
