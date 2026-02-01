@@ -1,5 +1,6 @@
 import { prisma } from "../../../database/prisma.js";
 import type { Resume } from "@create-resume/shared-types";
+import type { Prisma } from "@prisma/client";
 
 export interface CreateResumeInput {
   userId: string;
@@ -100,7 +101,10 @@ export async function getResumeById(id: string) {
   return formatResume(resume);
 }
 
-export async function updateResume(id: string, input: Partial<CreateResumeInput>) {
+export async function updateResume(
+  id: string,
+  input: Partial<CreateResumeInput>
+) {
   // Delete existing related records
   await prisma.$transaction([
     prisma.experience.deleteMany({ where: { resumeId: id } }),
@@ -153,7 +157,16 @@ export async function deleteResume(id: string) {
   });
 }
 
-function formatResume(resume: any): Resume {
+type ResumeWithRelations = Prisma.ResumeGetPayload<{
+  include: {
+    personalInfo: true;
+    experiences: true;
+    education: true;
+    skills: true;
+  };
+}>;
+
+function formatResume(resume: ResumeWithRelations): Resume {
   return {
     id: resume.id,
     summary: resume.summary ?? undefined,
@@ -168,7 +181,7 @@ function formatResume(resume: any): Resume {
           website: resume.personalInfo.website ?? undefined,
         }
       : { fullName: "", email: "" },
-    experiences: resume.experiences.map((exp: any) => ({
+    experiences: resume.experiences.map((exp) => ({
       id: exp.id,
       company: exp.company,
       position: exp.position,
@@ -178,7 +191,7 @@ function formatResume(resume: any): Resume {
       description: exp.description ?? "",
       highlights: exp.highlights,
     })),
-    education: resume.education.map((edu: any) => ({
+    education: resume.education.map((edu) => ({
       id: edu.id,
       institution: edu.institution,
       degree: edu.degree,
@@ -188,7 +201,7 @@ function formatResume(resume: any): Resume {
       current: edu.current,
       gpa: edu.gpa ?? undefined,
     })),
-    skills: resume.skills.map((skill: any) => ({
+    skills: resume.skills.map((skill) => ({
       id: skill.id,
       name: skill.name,
       level: skill.level ?? undefined,

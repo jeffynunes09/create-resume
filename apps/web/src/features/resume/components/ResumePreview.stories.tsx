@@ -39,7 +39,8 @@ const sampleData = {
       startDate: "2022-01",
       endDate: "",
       current: true,
-      description: "Desenvolvimento de aplicações web utilizando React e Node.js",
+      description:
+        "Desenvolvimento de aplicações web utilizando React e Node.js",
       highlights: [
         "Liderou equipe de 5 desenvolvedores",
         "Reduziu tempo de carregamento em 40%",
@@ -74,10 +75,30 @@ const sampleData = {
   ],
   skills: [
     { id: "1", name: "React", level: "expert" as const, category: "Frontend" },
-    { id: "2", name: "TypeScript", level: "advanced" as const, category: "Frontend" },
-    { id: "3", name: "Node.js", level: "advanced" as const, category: "Backend" },
-    { id: "4", name: "PostgreSQL", level: "intermediate" as const, category: "Database" },
-    { id: "5", name: "Docker", level: "intermediate" as const, category: "DevOps" },
+    {
+      id: "2",
+      name: "TypeScript",
+      level: "advanced" as const,
+      category: "Frontend",
+    },
+    {
+      id: "3",
+      name: "Node.js",
+      level: "advanced" as const,
+      category: "Backend",
+    },
+    {
+      id: "4",
+      name: "PostgreSQL",
+      level: "intermediate" as const,
+      category: "Database",
+    },
+    {
+      id: "5",
+      name: "Docker",
+      level: "intermediate" as const,
+      category: "DevOps",
+    },
   ],
 };
 

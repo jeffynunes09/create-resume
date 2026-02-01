@@ -56,6 +56,7 @@ tipo(escopo): descrição
 ```
 
 Tipos:
+
 - `feat`: Nova funcionalidade
 - `fix`: Correção de bug
 - `docs`: Documentação
@@ -65,6 +66,7 @@ Tipos:
 - `chore`: Manutenção
 
 Exemplos:
+
 ```
 feat(resume): adicionar exportação para PDF
 fix(auth): corrigir validação de token expirado

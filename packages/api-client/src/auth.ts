@@ -20,7 +20,10 @@ export function createAuthApi(client: ApiClient) {
       return client.post<LoginResponse>(ROUTES_PATH.AUTH, data);
     },
     register: (data: RegisterInput): Promise<RegisterResponse> => {
-      return client.post<RegisterResponse>(`/auth${ROUTES_PATH.REGISTER}`, data);
+      return client.post<RegisterResponse>(
+        `/auth${ROUTES_PATH.REGISTER}`,
+        data
+      );
     },
   };
 }

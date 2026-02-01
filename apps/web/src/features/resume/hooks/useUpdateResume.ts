@@ -9,7 +9,8 @@ export function useUpdateResume(id: string) {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: (data: Partial<CreateResumeInput>) => api.resume.update(id, data),
+    mutationFn: (data: Partial<CreateResumeInput>) =>
+      api.resume.update(id, data),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["resumes"] });
       queryClient.invalidateQueries({ queryKey: ["resume", id] });

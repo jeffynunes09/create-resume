@@ -5,7 +5,11 @@ import type { ApiError } from "@create-resume/api-client";
 export function RegisterPage() {
   const { mutate, isPending, error } = useRegister();
 
-  const handleRegister = (data: { email: string; password: string; confirmPassword: string }) => {
+  const handleRegister = (data: {
+    email: string;
+    password: string;
+    confirmPassword: string;
+  }) => {
     mutate(data);
   };
 

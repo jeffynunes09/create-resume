@@ -39,7 +39,11 @@ const emptyEducation: Omit<Education, "id"> = {
 interface SortableEducationItemProps {
   edu: Education;
   index: number;
-  updateEducation: (id: string, field: keyof Education, value: string | boolean) => void;
+  updateEducation: (
+    id: string,
+    field: keyof Education,
+    value: string | boolean
+  ) => void;
   removeEducation: (id: string) => void;
 }
 
@@ -110,9 +114,7 @@ function SortableEducationItem({
           <Label>Grau *</Label>
           <Input
             value={edu.degree}
-            onChange={(e) =>
-              updateEducation(edu.id, "degree", e.target.value)
-            }
+            onChange={(e) => updateEducation(edu.id, "degree", e.target.value)}
             placeholder="Bacharelado"
           />
         </div>
@@ -121,9 +123,7 @@ function SortableEducationItem({
           <Label>Área *</Label>
           <Input
             value={edu.field}
-            onChange={(e) =>
-              updateEducation(edu.id, "field", e.target.value)
-            }
+            onChange={(e) => updateEducation(edu.id, "field", e.target.value)}
             placeholder="Ciência da Computação"
           />
         </div>
@@ -132,9 +132,7 @@ function SortableEducationItem({
           <Label>Coeficiente (CR/GPA)</Label>
           <Input
             value={edu.gpa || ""}
-            onChange={(e) =>
-              updateEducation(edu.id, "gpa", e.target.value)
-            }
+            onChange={(e) => updateEducation(edu.id, "gpa", e.target.value)}
             placeholder="8.5"
           />
         </div>
@@ -155,9 +153,7 @@ function SortableEducationItem({
           <Input
             type="month"
             value={edu.endDate || ""}
-            onChange={(e) =>
-              updateEducation(edu.id, "endDate", e.target.value)
-            }
+            onChange={(e) => updateEducation(edu.id, "endDate", e.target.value)}
             disabled={edu.current}
           />
           <label className="flex items-center gap-2 text-sm">
@@ -206,9 +202,7 @@ export function EducationForm({ education, onChange }: EducationFormProps) {
     value: string | boolean
   ) => {
     onChange(
-      education.map((edu) =>
-        edu.id === id ? { ...edu, [field]: value } : edu
-      )
+      education.map((edu) => (edu.id === id ? { ...edu, [field]: value } : edu))
     );
   };
 
@@ -233,7 +227,12 @@ export function EducationForm({ education, onChange }: EducationFormProps) {
             </p>
           )}
         </div>
-        <Button type="button" variant="outline" size="sm" onClick={addEducation}>
+        <Button
+          type="button"
+          variant="outline"
+          size="sm"
+          onClick={addEducation}
+        >
           <Plus className="h-4 w-4 mr-2" />
           Adicionar
         </Button>

@@ -1,9 +1,18 @@
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { QueryClientProvider } from "@tanstack/react-query";
 import { queryClient } from "@/lib/query";
-import { AuthProvider, useAuth, LoginPage, RegisterPage } from "@/features/auth";
+import {
+  AuthProvider,
+  useAuth,
+  LoginPage,
+  RegisterPage,
+} from "@/features/auth";
 import { DashboardPage } from "@/features/dashboard";
-import { ResumeCreatePage, ResumeViewPage, ResumeEditPage } from "@/features/resume";
+import {
+  ResumeCreatePage,
+  ResumeViewPage,
+  ResumeEditPage,
+} from "@/features/resume";
 import { AppLayout } from "@/components/layout";
 import { ROUTES_PATH } from "@create-resume/routes";
 
@@ -57,14 +66,23 @@ function AppRoutes() {
         }
       >
         <Route path={ROUTES_PATH.DASHBOARD} element={<DashboardPage />} />
-        <Route path={ROUTES_PATH.RESUME_CREATE} element={<ResumeCreatePage />} />
+        <Route
+          path={ROUTES_PATH.RESUME_CREATE}
+          element={<ResumeCreatePage />}
+        />
         <Route path={ROUTES_PATH.RESUME_VIEW} element={<ResumeViewPage />} />
         <Route path={ROUTES_PATH.RESUME_EDIT} element={<ResumeEditPage />} />
       </Route>
 
       {/* Redirects */}
-      <Route path="/" element={<Navigate to={ROUTES_PATH.DASHBOARD} replace />} />
-      <Route path="*" element={<Navigate to={ROUTES_PATH.DASHBOARD} replace />} />
+      <Route
+        path="/"
+        element={<Navigate to={ROUTES_PATH.DASHBOARD} replace />}
+      />
+      <Route
+        path="*"
+        element={<Navigate to={ROUTES_PATH.DASHBOARD} replace />}
+      />
     </Routes>
   );
 }

@@ -25,8 +25,18 @@ export function ResumePreview({
     const month = parts[1];
     if (!year || !month) return date;
     const months = [
-      "Jan", "Fev", "Mar", "Abr", "Mai", "Jun",
-      "Jul", "Ago", "Set", "Out", "Nov", "Dez",
+      "Jan",
+      "Fev",
+      "Mar",
+      "Abr",
+      "Mai",
+      "Jun",
+      "Jul",
+      "Ago",
+      "Set",
+      "Out",
+      "Nov",
+      "Dez",
     ];
     const monthIndex = parseInt(month, 10) - 1;
     if (isNaN(monthIndex) || monthIndex < 0 || monthIndex > 11) return date;
@@ -49,10 +59,7 @@ export function ResumePreview({
     >
       {/* Header */}
       <div className="text-center mb-6">
-        <h1
-          className="font-bold mb-2"
-          style={{ fontSize: `${headingSize}px` }}
-        >
+        <h1 className="font-bold mb-2" style={{ fontSize: `${headingSize}px` }}>
           {personalInfo?.fullName || "Seu Nome"}
         </h1>
         <div
@@ -82,7 +89,11 @@ export function ResumePreview({
           )}
           {personalInfo?.linkedIn && (
             <a
-              href={personalInfo.linkedIn.startsWith("http") ? personalInfo.linkedIn : `https://${personalInfo.linkedIn}`}
+              href={
+                personalInfo.linkedIn.startsWith("http")
+                  ? personalInfo.linkedIn
+                  : `https://${personalInfo.linkedIn}`
+              }
               target="_blank"
               rel="noopener noreferrer"
               className="flex items-center gap-1 hover:underline text-blue-600"
@@ -93,7 +104,11 @@ export function ResumePreview({
           )}
           {personalInfo?.github && (
             <a
-              href={personalInfo.github.startsWith("http") ? personalInfo.github : `https://${personalInfo.github}`}
+              href={
+                personalInfo.github.startsWith("http")
+                  ? personalInfo.github
+                  : `https://${personalInfo.github}`
+              }
               target="_blank"
               rel="noopener noreferrer"
               className="flex items-center gap-1 hover:underline text-blue-600"
@@ -142,7 +157,9 @@ export function ResumePreview({
                       <h3 className="font-semibold">{exp.position}</h3>
                       <p style={{ color: "#4a5568" }}>{exp.company}</p>
                     </div>
-                    <span style={{ fontSize: `${smallSize}px`, color: "#718096" }}>
+                    <span
+                      style={{ fontSize: `${smallSize}px`, color: "#718096" }}
+                    >
                       {formatDate(exp.startDate)} -{" "}
                       {exp.current ? "Presente" : formatDate(exp.endDate)}
                     </span>
@@ -192,12 +209,16 @@ export function ResumePreview({
                     </h3>
                     <p style={{ color: "#4a5568" }}>{edu.institution}</p>
                     {edu.gpa && (
-                      <p style={{ fontSize: `${smallSize}px`, color: "#718096" }}>
+                      <p
+                        style={{ fontSize: `${smallSize}px`, color: "#718096" }}
+                      >
                         CR: {edu.gpa}
                       </p>
                     )}
                   </div>
-                  <span style={{ fontSize: `${smallSize}px`, color: "#718096" }}>
+                  <span
+                    style={{ fontSize: `${smallSize}px`, color: "#718096" }}
+                  >
                     {formatDate(edu.startDate)} -{" "}
                     {edu.current ? "Presente" : formatDate(edu.endDate)}
                   </span>

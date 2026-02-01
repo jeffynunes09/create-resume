@@ -24,7 +24,11 @@ interface LoginFormProps {
   error?: string | null;
 }
 
-export function LoginForm({ onSubmit, isLoading = false, error }: LoginFormProps) {
+export function LoginForm({
+  onSubmit,
+  isLoading = false,
+  error,
+}: LoginFormProps) {
   const [formData, setFormData] = useState<LoginFormData>({
     email: "",
     password: "",
@@ -43,9 +47,7 @@ export function LoginForm({ onSubmit, isLoading = false, error }: LoginFormProps
   return (
     <Card className="w-full max-w-md">
       <CardHeader className="space-y-1">
-        <CardTitle className="text-2xl font-bold text-center">
-          Entrar
-        </CardTitle>
+        <CardTitle className="text-2xl font-bold text-center">Entrar</CardTitle>
         <CardDescription className="text-center">
           Digite seu email e senha para acessar sua conta
         </CardDescription>
@@ -90,7 +92,10 @@ export function LoginForm({ onSubmit, isLoading = false, error }: LoginFormProps
           </Button>
           <p className="text-sm text-muted-foreground text-center">
             Não tem uma conta?{" "}
-            <Link to={ROUTES_PATH.REGISTER} className="text-primary hover:underline">
+            <Link
+              to={ROUTES_PATH.REGISTER}
+              className="text-primary hover:underline"
+            >
               Cadastre-se
             </Link>
           </p>

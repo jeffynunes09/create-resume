@@ -17,6 +17,7 @@ Uma aplicação moderna para criação e gerenciamento de currículos profission
 ## Tech Stack
 
 ### Frontend
+
 - **React 19** - UI library
 - **TypeScript** - Type safety
 - **Vite** - Build tool
@@ -29,6 +30,7 @@ Uma aplicação moderna para criação e gerenciamento de currículos profission
 - **Storybook** - Component documentation
 
 ### Backend
+
 - **Node.js** - Runtime
 - **Express** - Web framework
 - **Prisma** - ORM
@@ -38,6 +40,7 @@ Uma aplicação moderna para criação e gerenciamento de currículos profission
 - **Zod** - Validation
 
 ### Tooling
+
 - **pnpm** - Package manager
 - **Turborepo** - Monorepo management
 - **ESLint** - Linting
@@ -105,16 +108,16 @@ pnpm --filter @create-resume/web dev   # Web em http://localhost:5173
 
 ## Scripts Disponíveis
 
-| Comando | Descrição |
-|---------|-----------|
-| `pnpm dev` | Inicia todos os serviços em modo dev |
-| `pnpm build` | Build de produção de todos os pacotes |
-| `pnpm lint` | Executa ESLint em todos os pacotes |
-| `pnpm typecheck` | Verifica tipos TypeScript |
-| `pnpm test` | Executa testes |
-| `pnpm format` | Formata código com Prettier |
-| `pnpm storybook` | Inicia Storybook |
-| `pnpm build-storybook` | Build do Storybook |
+| Comando                | Descrição                             |
+| ---------------------- | ------------------------------------- |
+| `pnpm dev`             | Inicia todos os serviços em modo dev  |
+| `pnpm build`           | Build de produção de todos os pacotes |
+| `pnpm lint`            | Executa ESLint em todos os pacotes    |
+| `pnpm typecheck`       | Verifica tipos TypeScript             |
+| `pnpm test`            | Executa testes                        |
+| `pnpm format`          | Formata código com Prettier           |
+| `pnpm storybook`       | Inicia Storybook                      |
+| `pnpm build-storybook` | Build do Storybook                    |
 
 ## Documentação da API
 
@@ -126,14 +129,14 @@ http://localhost:3001/api-docs
 
 ### Endpoints
 
-| Método | Endpoint | Descrição |
-|--------|----------|-----------|
-| POST | `/auth/login` | Autenticação |
-| GET | `/resumes` | Listar currículos |
-| POST | `/resumes` | Criar currículo |
-| GET | `/resumes/:id` | Buscar currículo |
-| PUT | `/resumes/:id` | Atualizar currículo |
-| DELETE | `/resumes/:id` | Excluir currículo |
+| Método | Endpoint       | Descrição           |
+| ------ | -------------- | ------------------- |
+| POST   | `/auth/login`  | Autenticação        |
+| GET    | `/resumes`     | Listar currículos   |
+| POST   | `/resumes`     | Criar currículo     |
+| GET    | `/resumes/:id` | Buscar currículo    |
+| PUT    | `/resumes/:id` | Atualizar currículo |
+| DELETE | `/resumes/:id` | Excluir currículo   |
 
 ## Storybook
 
@@ -164,6 +167,7 @@ O projeto utiliza GitHub Actions para:
 - **Test** - Execução de testes
 
 A pipeline é executada em:
+
 - Push para `main` ou `master`
 - Pull requests para `main` ou `master`
 

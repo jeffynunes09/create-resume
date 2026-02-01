@@ -42,8 +42,14 @@ interface SortableExperienceItemProps {
   exp: Experience;
   index: number;
   highlightInput: Record<string, string>;
-  setHighlightInput: React.Dispatch<React.SetStateAction<Record<string, string>>>;
-  updateExperience: (id: string, field: keyof Experience, value: string | boolean | string[]) => void;
+  setHighlightInput: React.Dispatch<
+    React.SetStateAction<Record<string, string>>
+  >;
+  updateExperience: (
+    id: string,
+    field: keyof Experience,
+    value: string | boolean | string[]
+  ) => void;
   removeExperience: (id: string) => void;
   addHighlight: (id: string) => void;
   removeHighlight: (expId: string, index: number) => void;
@@ -304,7 +310,12 @@ export function ExperienceForm({ experiences, onChange }: ExperienceFormProps) {
             </p>
           )}
         </div>
-        <Button type="button" variant="outline" size="sm" onClick={addExperience}>
+        <Button
+          type="button"
+          variant="outline"
+          size="sm"
+          onClick={addExperience}
+        >
           <Plus className="h-4 w-4 mr-2" />
           Adicionar
         </Button>

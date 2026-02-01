@@ -31,7 +31,11 @@ const options: swaggerJsdoc.Options = {
           required: ["fullName", "email"],
           properties: {
             fullName: { type: "string", example: "João Silva" },
-            email: { type: "string", format: "email", example: "joao@email.com" },
+            email: {
+              type: "string",
+              format: "email",
+              example: "joao@email.com",
+            },
             phone: { type: "string", example: "(11) 99999-9999" },
             location: { type: "string", example: "São Paulo, SP" },
             linkedIn: { type: "string", example: "linkedin.com/in/joaosilva" },
@@ -58,7 +62,10 @@ const options: swaggerJsdoc.Options = {
           required: ["institution", "degree", "field"],
           properties: {
             id: { type: "string", format: "uuid" },
-            institution: { type: "string", example: "Universidade de São Paulo" },
+            institution: {
+              type: "string",
+              example: "Universidade de São Paulo",
+            },
             degree: { type: "string", example: "Bacharelado" },
             field: { type: "string", example: "Ciência da Computação" },
             startDate: { type: "string", format: "date" },
@@ -126,7 +133,11 @@ const options: swaggerJsdoc.Options = {
           type: "object",
           required: ["email", "password"],
           properties: {
-            email: { type: "string", format: "email", example: "user@example.com" },
+            email: {
+              type: "string",
+              format: "email",
+              example: "user@example.com",
+            },
             password: { type: "string", minLength: 6, example: "password123" },
           },
         },
@@ -134,9 +145,17 @@ const options: swaggerJsdoc.Options = {
           type: "object",
           required: ["email", "password", "confirmPassword"],
           properties: {
-            email: { type: "string", format: "email", example: "newuser@example.com" },
+            email: {
+              type: "string",
+              format: "email",
+              example: "newuser@example.com",
+            },
             password: { type: "string", minLength: 6, example: "password123" },
-            confirmPassword: { type: "string", minLength: 6, example: "password123" },
+            confirmPassword: {
+              type: "string",
+              minLength: 6,
+              example: "password123",
+            },
           },
         },
         AuthResponse: {

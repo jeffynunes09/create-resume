@@ -35,11 +35,10 @@
     </description>
   </task>
 
-  <expected_output>
-    <item>Schema Prisma (se aplicável)</item>
-    <item>Endpoints bem definidos</item>
-    <item>Services e repositories</item>
-    <item>Explicação das decisões técnicas</item>
-  </expected_output>
+<expected_output>
+<item>Schema Prisma (se aplicável)</item>
+<item>Endpoints bem definidos</item>
+<item>Services e repositories</item>
+<item>Explicação das decisões técnicas</item>
+</expected_output>
 </prompt>
-        

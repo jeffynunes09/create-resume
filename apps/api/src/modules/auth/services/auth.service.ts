@@ -2,8 +2,10 @@ import bcrypt from "bcryptjs";
 import jwt, { type SignOptions } from "jsonwebtoken";
 import { prisma } from "../../../database/prisma.js";
 
-const JWT_SECRET = process.env.JWT_SECRET || "your-secret-key-change-in-production";
-const JWT_EXPIRES_IN = (process.env.JWT_EXPIRES_IN || "7d") as SignOptions["expiresIn"];
+const JWT_SECRET =
+  process.env.JWT_SECRET || "your-secret-key-change-in-production";
+const JWT_EXPIRES_IN = (process.env.JWT_EXPIRES_IN ||
+  "7d") as SignOptions["expiresIn"];
 
 export interface LoginInput {
   email: string;
@@ -41,11 +43,9 @@ export async function login(input: LoginInput): Promise<AuthResponse> {
     throw new Error("Credenciais inválidas");
   }
 
-  const token = jwt.sign(
-    { userId: user.id, email: user.email },
-    JWT_SECRET,
-    { expiresIn: JWT_EXPIRES_IN }
-  );
+  const token = jwt.sign({ userId: user.id, email: user.email }, JWT_SECRET, {
+    expiresIn: JWT_EXPIRES_IN,
+  });
 
   return {
     user: {
@@ -84,11 +84,9 @@ export async function register(input: RegisterInput): Promise<AuthResponse> {
     },
   });
 
-  const token = jwt.sign(
-    { userId: user.id, email: user.email },
-    JWT_SECRET,
-    { expiresIn: JWT_EXPIRES_IN }
-  );
+  const token = jwt.sign({ userId: user.id, email: user.email }, JWT_SECRET, {
+    expiresIn: JWT_EXPIRES_IN,
+  });
 
   return {
     user: {

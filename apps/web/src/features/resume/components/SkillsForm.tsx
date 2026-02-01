@@ -132,9 +132,7 @@ export function SkillsForm({ skills, onChange }: SkillsFormProps) {
   };
 
   const updateSkillLevel = (id: string, level: Skill["level"]) => {
-    onChange(
-      skills.map((s) => (s.id === id ? { ...s, level } : s))
-    );
+    onChange(skills.map((s) => (s.id === id ? { ...s, level } : s)));
   };
 
   const handleDragEnd = (event: DragEndEvent) => {

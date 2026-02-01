@@ -15,10 +15,14 @@ app.use(cors());
 app.use(express.json());
 
 // Swagger Documentation
-app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec, {
-  customCss: ".swagger-ui .topbar { display: none }",
-  customSiteTitle: "Create Resume API Docs",
-}));
+app.use(
+  "/api-docs",
+  swaggerUi.serve,
+  swaggerUi.setup(swaggerSpec, {
+    customCss: ".swagger-ui .topbar { display: none }",
+    customSiteTitle: "Create Resume API Docs",
+  })
+);
 
 // Routes
 app.get("/health", (_req, res) => {

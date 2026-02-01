@@ -28,11 +28,10 @@
     </description>
   </task>
 
-  <expected_output>
-    <item>Estrutura de pastas</item>
-    <item>Componentes completos</item>
-    <item>Hooks ou utils se necessário</item>
-    <item>Boas práticas de React</item>
-  </expected_output>
+<expected_output>
+<item>Estrutura de pastas</item>
+<item>Componentes completos</item>
+<item>Hooks ou utils se necessário</item>
+<item>Boas práticas de React</item>
+</expected_output>
 </prompt>
-

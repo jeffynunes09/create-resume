@@ -25,7 +25,11 @@ interface RegisterFormProps {
   error?: string | null;
 }
 
-export function RegisterForm({ onSubmit, isLoading = false, error }: RegisterFormProps) {
+export function RegisterForm({
+  onSubmit,
+  isLoading = false,
+  error,
+}: RegisterFormProps) {
   const [formData, setFormData] = useState<RegisterFormData>({
     email: "",
     password: "",
@@ -124,7 +128,10 @@ export function RegisterForm({ onSubmit, isLoading = false, error }: RegisterFor
           </Button>
           <p className="text-sm text-muted-foreground text-center">
             Já tem uma conta?{" "}
-            <Link to={ROUTES_PATH.LOGIN} className="text-primary hover:underline">
+            <Link
+              to={ROUTES_PATH.LOGIN}
+              className="text-primary hover:underline"
+            >
               Entrar
             </Link>
           </p>

@@ -12,10 +12,24 @@ import { ResumePreview } from "../components/ResumePreview";
 import { useResume } from "../hooks/useResume";
 import { useDeleteResume } from "../hooks/useDeleteResume";
 import { ROUTES_PATH, buildRoute } from "@create-resume/routes";
-import { ArrowLeft, Edit, Trash2, Download, Loader2, FileText } from "lucide-react";
+import {
+  ArrowLeft,
+  Edit,
+  Trash2,
+  Download,
+  Loader2,
+  FileText,
+} from "lucide-react";
 import html2canvas from "html2canvas";
 import { jsPDF } from "jspdf";
-import { Document, Packer, Paragraph, TextRun, HeadingLevel, AlignmentType } from "docx";
+import {
+  Document,
+  Packer,
+  Paragraph,
+  TextRun,
+  HeadingLevel,
+  AlignmentType,
+} from "docx";
 import { saveAs } from "file-saver";
 
 const FONTS = [
@@ -109,7 +123,9 @@ export function ResumeViewPage() {
         const previewRect = previewElement.getBoundingClientRect();
         const scale = imgWidth / previewRect.width;
 
-        const linkElements = previewElement.querySelectorAll('a[href*="linkedin"], a[href*="github"]');
+        const linkElements = previewElement.querySelectorAll(
+          'a[href*="linkedin"], a[href*="github"]'
+        );
         linkElements.forEach((linkEl) => {
           const rect = linkEl.getBoundingClientRect();
           const x = (rect.left - previewRect.left) * scale;
@@ -172,9 +188,12 @@ export function ResumeViewPage() {
 
       // Contato
       const contactParts: string[] = [];
-      if (resume.personalInfo.email) contactParts.push(resume.personalInfo.email);
-      if (resume.personalInfo.phone) contactParts.push(resume.personalInfo.phone);
-      if (resume.personalInfo.location) contactParts.push(resume.personalInfo.location);
+      if (resume.personalInfo.email)
+        contactParts.push(resume.personalInfo.email);
+      if (resume.personalInfo.phone)
+        contactParts.push(resume.personalInfo.phone);
+      if (resume.personalInfo.location)
+        contactParts.push(resume.personalInfo.location);
 
       if (contactParts.length > 0) {
         sections.push(
@@ -233,7 +252,9 @@ export function ResumeViewPage() {
           const dateText = `${exp.startDate || ""} - ${exp.current ? "Presente" : exp.endDate || ""}`;
           sections.push(
             new Paragraph({
-              children: [new TextRun({ text: dateText, size: 20, color: "666666" })],
+              children: [
+                new TextRun({ text: dateText, size: 20, color: "666666" }),
+              ],
             })
           );
 
@@ -271,7 +292,11 @@ export function ResumeViewPage() {
           sections.push(
             new Paragraph({
               children: [
-                new TextRun({ text: `${edu.degree} em ${edu.field}`, bold: true, size: 24 }),
+                new TextRun({
+                  text: `${edu.degree} em ${edu.field}`,
+                  bold: true,
+                  size: 24,
+                }),
               ],
               spacing: { before: 200 },
             })
@@ -284,7 +309,9 @@ export function ResumeViewPage() {
           const dateText = `${edu.startDate || ""} - ${edu.current ? "Presente" : edu.endDate || ""}`;
           sections.push(
             new Paragraph({
-              children: [new TextRun({ text: dateText, size: 20, color: "666666" })],
+              children: [
+                new TextRun({ text: dateText, size: 20, color: "666666" }),
+              ],
             })
           );
         }

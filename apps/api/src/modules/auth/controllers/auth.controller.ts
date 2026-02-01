@@ -49,8 +49,10 @@ export async function registerController(req: Request, res: Response) {
         res.status(409).json({ error: error.message });
         return;
       }
-      if (error.message === "As senhas não coincidem" ||
-          error.message === "A senha deve ter pelo menos 6 caracteres") {
+      if (
+        error.message === "As senhas não coincidem" ||
+        error.message === "A senha deve ter pelo menos 6 caracteres"
+      ) {
         res.status(400).json({ error: error.message });
         return;
       }
