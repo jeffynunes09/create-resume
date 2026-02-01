@@ -4,14 +4,14 @@ import { useNavigate } from "react-router-dom";
 import { api } from "@/lib/api";
 
 export function useDeleteResume() {
-	const navigate = useNavigate();
-	const queryClient = useQueryClient();
+  const navigate = useNavigate();
+  const queryClient = useQueryClient();
 
-	return useMutation({
-		mutationFn: (id: string) => api.resume.delete(id),
-		onSuccess: () => {
-			queryClient.invalidateQueries({ queryKey: ["resumes"] });
-			navigate(ROUTES_PATH.DASHBOARD);
-		},
-	});
+  return useMutation({
+    mutationFn: (id: string) => api.resume.delete(id),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["resumes"] });
+      navigate(ROUTES_PATH.DASHBOARD);
+    },
+  });
 }

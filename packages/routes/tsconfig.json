@@ -1,8 +1,8 @@
 {
-	"extends": "@create-resume/tsconfig/base.json",
-	"compilerOptions": {
-		"outDir": "./dist",
-		"rootDir": "."
-	},
-	"include": ["index.ts"]
+  "extends": "@create-resume/tsconfig/base.json",
+  "compilerOptions": {
+    "outDir": "./dist",
+    "rootDir": "."
+  },
+  "include": ["index.ts"]
 }
