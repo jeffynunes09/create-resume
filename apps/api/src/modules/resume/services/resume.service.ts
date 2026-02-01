@@ -181,7 +181,7 @@ function formatResume(resume: ResumeWithRelations): Resume {
 					website: resume.personalInfo.website ?? undefined,
 				}
 			: { fullName: "", email: "" },
-		experiences: resume.experiences.map((exp) => ({
+		experiences: resume.experiences.map((exp: typeof resume.experiences[number]) => ({
 			id: exp.id,
 			company: exp.company,
 			position: exp.position,
@@ -191,7 +191,7 @@ function formatResume(resume: ResumeWithRelations): Resume {
 			description: exp.description ?? "",
 			highlights: exp.highlights,
 		})),
-		education: resume.education.map((edu) => ({
+		education: resume.education.map((edu: typeof resume.education[number]) => ({
 			id: edu.id,
 			institution: edu.institution,
 			degree: edu.degree,
@@ -201,7 +201,7 @@ function formatResume(resume: ResumeWithRelations): Resume {
 			current: edu.current,
 			gpa: edu.gpa ?? undefined,
 		})),
-		skills: resume.skills.map((skill) => ({
+		skills: resume.skills.map((skill: typeof resume.skills[number]) => ({
 			id: skill.id,
 			name: skill.name,
 			level: skill.level ?? undefined,

@@ -168,7 +168,7 @@ export function SkillsForm({ skills, onChange }: SkillsFormProps) {
 
 			<div className="flex gap-2">
 				<div className="flex-1 space-y-2">
-					<Label>Nome da Habilidade</Label>
+					<Label>Nome <span className="hidden md:block">da Habilidade</span></Label>
 					<Input
 						value={newSkill.name}
 						onChange={(e) => setNewSkill({ ...newSkill, name: e.target.value })}
