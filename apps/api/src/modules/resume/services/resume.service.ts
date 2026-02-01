@@ -157,14 +157,22 @@ export async function deleteResume(id: string) {
 	});
 }
 
-type ResumeWithRelations = Prisma.ResumeGetPayload<{
-	include: {
-		personalInfo: true;
-		experiences: true;
-		education: true;
-		skills: true;
-	};
-}>;
+// Helper to get resume with all relations
+const getResumeWithRelations = async (id: string) => {
+	return prisma.resume.findUnique({
+		where: { id },
+		include: {
+			personalInfo: true,
+			experiences: true,
+			education: true,
+			skills: true,
+		},
+	});
+};
+
+type ResumeWithRelations = NonNullable<
+	Awaited<ReturnType<typeof getResumeWithRelations>>
+>;
 
 function formatResume(resume: ResumeWithRelations): Resume {
 	return {
