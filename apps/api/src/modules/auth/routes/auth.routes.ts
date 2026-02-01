@@ -1,6 +1,7 @@
+import { ROUTES_PATH } from "@create-resume/routes";
 import { Router, type Router as RouterType } from "express";
 import { loginController, registerController } from "../controllers/index.js";
-import { ROUTES_PATH } from "@create-resume/routes";
+
 const router: RouterType = Router();
 
 /**
