@@ -143,7 +143,7 @@ export function ResumeCreatePage() {
 			</div>
 
 			{/* Preview - Hidden on mobile, visible on large screens */}
-			<div className="hidden lg:block lg:w-[420px] lg:flex-shrink-0 overflow-auto border rounded-lg bg-gray-100 p-4">
+			<div className="hidden lg:block lg:w-[500px] lg:flex-shrink-0 overflow-auto border rounded-lg bg-gray-100 p-4">
 				<h2 className="text-sm font-medium text-muted-foreground mb-4">
 					Pré-visualização
 				</h2>

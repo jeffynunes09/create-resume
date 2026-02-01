@@ -181,27 +181,31 @@ function formatResume(resume: ResumeWithRelations): Resume {
 					website: resume.personalInfo.website ?? undefined,
 				}
 			: { fullName: "", email: "" },
-		experiences: resume.experiences.map((exp) => ({
-			id: exp.id,
-			company: exp.company,
-			position: exp.position,
-			startDate: exp.startDate,
-			endDate: exp.endDate ?? undefined,
-			current: exp.current,
-			description: exp.description ?? "",
-			highlights: exp.highlights,
-		})),
-		education: resume.education.map((edu) => ({
-			id: edu.id,
-			institution: edu.institution,
-			degree: edu.degree,
-			field: edu.field,
-			startDate: edu.startDate,
-			endDate: edu.endDate ?? undefined,
-			current: edu.current,
-			gpa: edu.gpa ?? undefined,
-		})),
-		skills: resume.skills.map((skill) => ({
+		experiences: resume.experiences.map(
+			(exp: (typeof resume.experiences)[number]) => ({
+				id: exp.id,
+				company: exp.company,
+				position: exp.position,
+				startDate: exp.startDate,
+				endDate: exp.endDate ?? undefined,
+				current: exp.current,
+				description: exp.description ?? "",
+				highlights: exp.highlights,
+			}),
+		),
+		education: resume.education.map(
+			(edu: (typeof resume.education)[number]) => ({
+				id: edu.id,
+				institution: edu.institution,
+				degree: edu.degree,
+				field: edu.field,
+				startDate: edu.startDate,
+				endDate: edu.endDate ?? undefined,
+				current: edu.current,
+				gpa: edu.gpa ?? undefined,
+			}),
+		),
+		skills: resume.skills.map((skill: (typeof resume.skills)[number]) => ({
 			id: skill.id,
 			name: skill.name,
 			level: skill.level ?? undefined,
