@@ -117,12 +117,17 @@ export function ResumeEditPage() {
   }
 
   return (
-    <div className="flex gap-6 h-[calc(100vh-8rem)]">
+    <div className="flex flex-col lg:flex-row gap-6 h-auto lg:h-[calc(100vh-8rem)]">
       {/* Form */}
-      <div className="flex-1 overflow-auto">
-        <div className="flex items-center justify-between mb-6">
-          <div className="flex items-center gap-4">
-            <Button variant="ghost" size="sm" asChild>
+      <div className="flex-1 overflow-auto pb-6 lg:pb-0">
+        <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-6">
+          <div className="flex flex-col sm:flex-row items-start sm:items-center gap-3 sm:gap-4 w-full sm:w-auto">
+            <Button
+              variant="ghost"
+              size="sm"
+              asChild
+              className="w-full sm:w-auto"
+            >
               <Link to={ROUTES_PATH.DASHBOARD}>
                 <ArrowLeft className="h-4 w-4 mr-2" />
                 Voltar
@@ -130,7 +135,11 @@ export function ResumeEditPage() {
             </Button>
             <h1 className="text-2xl font-bold">Editar Currículo</h1>
           </div>
-          <Button onClick={handleSave} disabled={isPending}>
+          <Button
+            onClick={handleSave}
+            disabled={isPending}
+            className="w-full sm:w-auto"
+          >
             <Save className="h-4 w-4 mr-2" />
             {isPending ? "Salvando..." : "Salvar"}
           </Button>
@@ -143,11 +152,19 @@ export function ResumeEditPage() {
         )}
 
         <Tabs defaultValue="personal" className="w-full">
-          <TabsList className="grid w-full grid-cols-4">
-            <TabsTrigger value="personal">Pessoal</TabsTrigger>
-            <TabsTrigger value="experience">Experiência</TabsTrigger>
-            <TabsTrigger value="education">Educação</TabsTrigger>
-            <TabsTrigger value="skills">Habilidades</TabsTrigger>
+          <TabsList className="grid w-full grid-cols-2 sm:grid-cols-4 h-auto">
+            <TabsTrigger value="personal" className="text-xs sm:text-sm">
+              Pessoal
+            </TabsTrigger>
+            <TabsTrigger value="experience" className="text-xs sm:text-sm">
+              Experiência
+            </TabsTrigger>
+            <TabsTrigger value="education" className="text-xs sm:text-sm">
+              Educação
+            </TabsTrigger>
+            <TabsTrigger value="skills" className="text-xs sm:text-sm">
+              Habilidades
+            </TabsTrigger>
           </TabsList>
 
           <div className="mt-6">
@@ -178,8 +195,8 @@ export function ResumeEditPage() {
         </Tabs>
       </div>
 
-      {/* Preview */}
-      <div className="w-[420px] flex-shrink-0 overflow-auto border rounded-lg bg-gray-100 p-4">
+      {/* Preview - Hidden on mobile, visible on large screens */}
+      <div className="hidden lg:block lg:w-[420px] lg:flex-shrink-0 overflow-auto border rounded-lg bg-gray-100 p-4">
         <h2 className="text-sm font-medium text-muted-foreground mb-4">
           Pré-visualização
         </h2>
